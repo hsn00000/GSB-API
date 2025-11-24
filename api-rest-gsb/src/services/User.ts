@@ -1,5 +1,5 @@
-import { UserModel, IUserDocument } from '../models/User';
-import { ICreateUser } from '../models/interfaces/IUser';
+import { UserModel, IUserDocument } from '../models/Visiteur';
+import { ICreateUser } from '../models/interfaces/IVisiteur';
 /**
  * Service pour gérer la logique métier des utilisateurs
  */
