@@ -5,6 +5,7 @@ export interface IVisiteur {
   _id?: string;
   nom: string;
   prenom: string;
+  telephone: string;
   email: string;
   dateCreation?: Date;
   dateEmbauche?: Date;
@@ -18,4 +19,5 @@ export interface ICreateVisiteur {
   nom: string;
   prenom: string;
   email: string;
+  telephone: string;
 }

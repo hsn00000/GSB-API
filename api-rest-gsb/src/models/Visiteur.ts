@@ -30,6 +30,10 @@ const visiteurSchema = new Schema<IVisiteurDocument>(
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Email invalide']
     },
+    telephone: {
+      type: String,
+      required: [true, 'Le téléphone est obligatoire'],
+    },
     dateCreation: {
       type: Date,
       default: Date.now
