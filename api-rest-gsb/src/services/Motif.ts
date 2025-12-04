@@ -1,4 +1,3 @@
-import e from 'express';
 import { MotifModel, IMotifDocument } from '../models/Motif';
 import { ICreateMotif } from '../models/interfaces/IMotif';
 /**
