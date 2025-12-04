@@ -7,26 +7,27 @@ export class VisiteService {
   /**
    * Créer une nouvelle visite
    */
-  public async createVisite(visiteData: ICreateVisite): Promise<IVisiteDocument> {
-    try {
-      // Vérifier si le praticien existe déjà
-      const existingVisite = await VisiteModel.findOne({ email: visiteData.email });
+ public async createVisite(visiteData: ICreateVisite): Promise<IVisiteDocument> {
+  try {
+    // 1. On crée directement l'instance de la visite
+    // Pas besoin de vérifier l'email ici car une visite est un événement, pas un utilisateur unique.
+    const visite = new VisiteModel(visiteData);
 
-      if (existingVisite) {
-        throw new Error(`Une visite avec l'email ${visiteData.email} existe déjà`);
-      }
-      // Créer et sauvegarder la visite
-      const visite = new VisiteModel(visiteData);
-      await visite.save();
-      return visite;
-    } catch (error: any) {
-      // Gestion des erreurs de validation Mongoose
-      if (error.name === 'ValidationError') {
-        const messages = Object.values(error.errors).map((err: any) => err.message);
-        throw new Error(`Validation échouée: ${messages.join(', ')}`);
-      }
-      throw error;
+    // 2. Sauvegarde en base de données
+    await visite.save();
+    
+    return visite;
+
+  } catch (error: any) {
+    // Gestion des erreurs de validation Mongoose (ex: ID manquant, commentaire trop long)
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map((err: any) => err.message);
+      throw new Error(`Validation échouée: ${messages.join(', ')}`);
     }
+    
+    // Autres erreurs (ex: connexion DB perdue)
+    throw error;
+  }
   }
 
 
