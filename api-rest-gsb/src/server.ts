@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { Database } from './config/database';
-import { UserRoutes } from './routes/User';
+import { UserRoutes } from './routes/Visiteur';
 
 
 // Chargement des variables d'environnement
