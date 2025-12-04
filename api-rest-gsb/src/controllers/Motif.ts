@@ -18,12 +18,14 @@ export class MotifController {
     try {
       const motif = await this.motifService.createMotif(req.body);
 
+      console.log(req.body);
       res.status(201).json({
         success: true,
         message: 'Motif créé avec succès',
         data: motif
       });
     } catch (error: any) {
+         console.log(req.body);
       res.status(400).json({
         success: false,
         message: error.message || 'Erreur lors de la création'
@@ -31,7 +33,7 @@ export class MotifController {
     }
   };
   /**
-   * GET /api/users - Récupérer tous les utilisateurs
+   * GET /api/motifs - Récupérer tous les motifs
    */
   public getAllMotifs = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -50,7 +52,7 @@ export class MotifController {
     }
   };
   /**
-   * GET /api/users/:id - Récupérer un utilisateur par ID
+   * GET /api/motifs/:id - Récupérer un motif par ID
    */
   public getMotifById = async (req: Request, res: Response): Promise<void> => {
     try {

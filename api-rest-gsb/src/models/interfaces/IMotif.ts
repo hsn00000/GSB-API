@@ -4,7 +4,6 @@
 export interface IMotif {
   _id?: string;
   libelle: string;
-  description: string;
   dateCreation?: Date;
 }
 
@@ -14,5 +13,4 @@ export interface IMotif {
  */
 export interface ICreateMotif {
   libelle: string;
-  description: string;
 }
