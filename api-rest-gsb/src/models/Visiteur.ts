@@ -40,7 +40,11 @@ const visiteurSchema = new Schema<IVisiteurDocument>(
     },
     dateEmbauche: {
       type: Date
-    }
+    },
+    visites: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Visite'
+    }]
   },
   {
     versionKey: false

@@ -1,14 +1,15 @@
+import { Types } from "mongoose";
+
 /**
  * Interface représentant une visite
  */
 export interface IVisite {
-  _id?: string;
-  nom: string;
-  prenom: string;
-  telephone: string;
-  email: string;
-  dateCreation?: Date;
-  dateEmbauche?: Date;
+    _id?: string;
+    visiteurs:Types.ObjectId[];
+    praticiens:Types.ObjectId[];
+    motifs:Types.ObjectId[];
+    dateVisite?: Date;
+    commentaire?: string;
 }
 
 
@@ -16,8 +17,6 @@ export interface IVisite {
  * Interface pour la création d'une visite
  */
 export interface ICreateVisite {
-  nom: string;
-  prenom: string;
-  email: string;
-  telephone: string;
+    dateVisite?: Date;
+    commentaire?: string;
 }
