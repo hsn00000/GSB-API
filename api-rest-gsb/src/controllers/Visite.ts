@@ -62,7 +62,7 @@ export class VisiteController {
     } catch (error: any) {
       res.status(404).json({
         success: false,
-        message: error.message || 'Visite introuvable'
+        message: error.message || 'Praticien introuvable'
       });
     }
   };
