@@ -1,12 +1,12 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
-import { IPracticien } from './interfaces/IPracticien';
+import { IPraticien } from './interfaces/IPraticien';
 
 
-export type IPracticienDocument = IPracticien & Document;
+export type IPraticienDocument = IPraticien & Document;
 /**
- * Schéma Mongoose pour Practicien
+ * Schéma Mongoose pour Praticien
  */
-const practicienSchema = new Schema<IPracticienDocument>(
+const praticienSchema = new Schema<IPraticienDocument>(
   {
     nom: {
       type: String,
@@ -65,4 +65,4 @@ const practicienSchema = new Schema<IPracticienDocument>(
   }
 );
 
-export const PracticienModel: Model<IPracticienDocument> = mongoose.model<IPracticienDocument>('Practicien', practicienSchema);
+export const PraticienModel: Model<IPraticienDocument> = mongoose.model<IPraticienDocument>('Praticien', praticienSchema);

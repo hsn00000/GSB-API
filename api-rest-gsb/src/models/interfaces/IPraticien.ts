@@ -1,7 +1,7 @@
 /**
- * Interface représentant un practicien
+ * Interface représentant un praticien
  */
-export interface IPracticien {
+export interface IPraticien {
   _id?: string;
   nom: string;
   prenom: string;
@@ -15,9 +15,9 @@ export interface IPracticien {
 
 
 /**
- * Interface pour la création d'un practicien
+ * Interface pour la création d'un praticien
  */
-export interface ICreatePracticien {
+export interface ICreatePraticien {
   nom: string;
   prenom: string;
   email: string;
