@@ -5,6 +5,7 @@ import { Database } from './config/database';
 import { VisiteurRoutes } from './routes/Visiteur';
 import { MotifRoutes } from './routes/Motif';
 import { PraticienRoutes } from './routes/Praticien';
+import { VisiteRoutes } from './routes/Visite';
 
 
 // Chargement des variables d'environnement
@@ -82,6 +83,10 @@ class App {
     // Routes praticiens
     const praticienRoutes = new PraticienRoutes();
     this.app.use('/api/praticiens', praticienRoutes.router);
+
+    // Routes visites
+    const visiteRoutes = new VisiteRoutes();
+    this.app.use('/api/visites', visiteRoutes.router);
   }
 
 
