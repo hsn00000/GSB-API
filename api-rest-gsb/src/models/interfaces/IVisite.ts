@@ -5,9 +5,9 @@ import { Types } from "mongoose";
  */
 export interface IVisite {
     _id?: string;
-    visiteurs:Types.ObjectId[];
-    praticiens:Types.ObjectId[];
-    motifs:Types.ObjectId[];
+    visiteurs:Types.ObjectId;
+    praticiens:Types.ObjectId;
+    motifs:Types.ObjectId;
     dateVisite?: Date;
     commentaire?: string;
 }
