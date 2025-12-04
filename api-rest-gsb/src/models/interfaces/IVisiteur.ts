@@ -7,6 +7,7 @@ export interface IVisiteur {
   prenom: string;
   email: string;
   dateCreation?: Date;
+  dateEmbauche?: Date;
 }
 
 

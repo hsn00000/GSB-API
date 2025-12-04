@@ -33,6 +33,9 @@ const visiteurSchema = new Schema<IVisiteurDocument>(
     dateCreation: {
       type: Date,
       default: Date.now
+    },
+    dateEmbauche: {
+      type: Date
     }
   },
   {

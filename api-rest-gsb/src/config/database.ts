@@ -43,6 +43,7 @@ export class Database {
       const dbPassword = process.env.DB_PASSWORD;
       const dbName = process.env.DB_NAME || 'api-rest-express';
 
+      console.log('Connecting to MongoDB with:', dbUsername, dbPassword, dbName);
 
       if (!dbUsername || !dbPassword) {
         throw new Error('DB_USERNAME et DB_PASSWORD sont obligatoires dans .env');
