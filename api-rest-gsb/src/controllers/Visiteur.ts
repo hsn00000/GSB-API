@@ -67,4 +67,35 @@ export class VisiteurController {
       });
     }
   };
+
+  /**
+     * --- AJOUT USER STORY 1 ---
+     * POST /api/visiteurs/:id/portefeuille
+     * Body: { idPraticien: "..." }
+     */
+    public ajouterPraticienAuPortefeuille = async (req: Request, res: Response): Promise<void> => {
+      try {
+        const idVisiteur = req.params.id; // Récupéré depuis l'URL
+        const { idPraticien } = req.body; // Récupéré depuis le JSON envoyé
+
+        if (!idPraticien) {
+           res.status(400).json({ success: false, message: "L'ID du praticien est requis" });
+           return;
+        }
+
+        const visiteur = await this.visiteurService.ajouterPraticien(idVisiteur, idPraticien);
+
+        res.status(200).json({
+          success: true,
+          message: 'Praticien ajouté au portefeuille avec succès',
+          data: visiteur
+        });
+      } catch (error: any) {
+        res.status(400).json({
+          success: false,
+          message: error.message || "Erreur lors de l'ajout au portefeuille"
+        });
+      }
+    };
+
 }

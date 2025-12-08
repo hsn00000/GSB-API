@@ -24,5 +24,7 @@ export class VisiteurRoutes {
     this.router.get('/', this.visiteurController.getAllVisiteurs);
     // GET /api/visiteurs/:id - Récupérer un visiteur par ID
     this.router.get('/:id', this.visiteurController.getVisiteurById);
+    // POST /api/visiteurs/:id/portefeuille - Ajouter un praticien
+    this.router.post('/:id/portefeuille', this.visiteurController.ajouterPraticienAuPortefeuille);
   }
 }

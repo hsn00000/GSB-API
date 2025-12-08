@@ -44,14 +44,15 @@ const visiteurSchema = new Schema<IVisiteurDocument>(
     visites: [{
       type: Schema.Types.ObjectId,
       ref: 'Visite'
+    }],
+    portefeuille: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Praticien'
     }]
   },
   {
     versionKey: false
   }
 );
-
-
-
 
 export const VisiteurModel: Model<IVisiteurDocument> = mongoose.model<IVisiteurDocument>('Visiteur', visiteurSchema);

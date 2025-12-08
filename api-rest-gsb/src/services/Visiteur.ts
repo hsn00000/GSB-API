@@ -1,5 +1,7 @@
 import { VisiteurModel, IVisiteurDocument } from '../models/Visiteur';
 import { ICreateVisiteur } from '../models/interfaces/IVisiteur';
+import { PraticienModel } from '../models/Praticien';
+
 /**
  * Service pour gérer la logique métier des visiteurs
  */
@@ -63,4 +65,38 @@ export class VisiteurService {
       throw error;
     }
   }
+
+  /**
+     * --- AJOUT USER STORY 1 ---
+     * Ajouter un praticien au portefeuille d'un visiteur
+     */
+    public async ajouterPraticien(idVisiteur: string, idPraticien: string): Promise<IVisiteurDocument> {
+      
+      // 1. Vérifier si le praticien existe
+      const praticien = await PraticienModel.findById(idPraticien);
+      if (!praticien) {
+        throw new Error(`Praticien avec l'ID ${idPraticien} introuvable`);
+      }
+
+      // 2. Vérifier si le visiteur existe
+      const visiteur = await VisiteurModel.findById(idVisiteur);
+      if (!visiteur) {
+        throw new Error(`Visiteur avec l'ID ${idVisiteur} introuvable`);
+      }
+
+      // 3. Ajouter le praticien au portefeuille (s'il n'y est pas déjà)
+      // $addToSet est une commande Mongo magique qui évite les doublons automatiquement
+      const updatedVisiteur = await VisiteurModel.findByIdAndUpdate(
+        idVisiteur,
+        { $addToSet: { portefeuille: idPraticien } },
+        { new: true } // Pour récupérer l'objet mis à jour
+      ).exec();
+
+      if (!updatedVisiteur) {
+         throw new Error("Erreur lors de la mise à jour du portefeuille");
+      }
+
+      return updatedVisiteur;
+    }
+
 }

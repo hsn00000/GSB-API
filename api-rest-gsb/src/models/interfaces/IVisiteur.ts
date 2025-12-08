@@ -12,6 +12,7 @@ export interface IVisiteur {
   dateCreation?: Date;
   dateEmbauche?: Date;
   visites?: Types.ObjectId[];
+  portefeuille?: Types.ObjectId[];
 }
 
 
