@@ -98,4 +98,27 @@ export class VisiteurController {
       }
     };
 
+    /**
+   * --- AJOUT USER STORY 2 ---
+   * GET /api/visiteurs/:id/portefeuille
+   */
+  public getPortefeuilleVisiteur = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const idVisiteur = req.params.id;
+      
+      const portefeuille = await this.visiteurService.getPortefeuille(idVisiteur);
+
+      res.status(200).json({
+        success: true,
+        count: portefeuille.length, // On indique combien il y en a
+        data: portefeuille
+      });
+    } catch (error: any) {
+      res.status(404).json({
+        success: false,
+        message: error.message || "Erreur lors de la récupération du portefeuille"
+      });
+    }
+  };
+
 }

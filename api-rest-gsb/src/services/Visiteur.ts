@@ -99,4 +99,23 @@ export class VisiteurService {
       return updatedVisiteur;
     }
 
+    /**
+   * --- AJOUT USER STORY 2 ---
+   * Récupérer tous les praticiens du portefeuille d'un visiteur
+   */
+  public async getPortefeuille(idVisiteur: string): Promise<any> {
+    // On cherche le visiteur par son ID
+    // .populate('portefeuille') va automatiquement aller chercher les infos dans la collection Praticiens
+    const visiteur = await VisiteurModel.findById(idVisiteur)
+      .populate('portefeuille') 
+      .exec();
+
+    if (!visiteur) {
+      throw new Error(`Visiteur avec l'ID ${idVisiteur} introuvable`);
+    }
+
+    // On retourne uniquement le tableau de praticiens
+    return visiteur.portefeuille;
+  }
+
 }
