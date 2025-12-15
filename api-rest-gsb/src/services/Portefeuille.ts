@@ -1,46 +1,31 @@
-import { PortefeuilleModel, IPortefeuilleDocument } from '../models/Portefeuille';
-import { ICreatePortefeuille } from '../models/interfaces/IPortefeuille';
+import { PortefeuilleModel, IPortefeuille } from '../models/Portefeuille';
 
 export class PortefeuilleService {
-
-  /**
-   * Ajouter un praticien au portefeuille
-   */
-  public async ajouter(data: ICreatePortefeuille): Promise<IPortefeuilleDocument> {
+  
+  // Ajouter un lien
+  public async ajouter(visiteurId: string, praticienId: string): Promise<IPortefeuille> {
     try {
-      const entry = new PortefeuilleModel(data);
-      await entry.save();
-      return entry;
+      const lien = new PortefeuilleModel({ visiteur: visiteurId, praticien: praticienId });
+      await lien.save();
+      return lien; // Correction ici (c'était 'returnxh')
     } catch (error: any) {
-      // Gestion de l'erreur de duplicata (code 11000)
+      // Gestion de l'erreur de duplicata (code 11000 envoyé par MongoDB)
       if (error.code === 11000) {
-        throw new Error('Ce praticien est déjà dans le portefeuille de ce visiteur');
+        throw new Error("Ce praticien est déjà dans le portefeuille");
       }
       throw error;
     }
   }
 
-  /**
-   * Récupérer la liste des praticiens pour un visiteur donné
-   */
-  public async getPortefeuilleByVisiteur(visiteurId: string): Promise<IPortefeuilleDocument[]> {
-    try {
-      return await PortefeuilleModel.find({ visiteur: visiteurId })
-        .populate('praticien') // On remplit les infos du praticien
-        .sort({ dateAjout: -1 })
-        .exec();
-    } catch (error) {
-      throw new Error('Erreur lors de la récupération du portefeuille');
-    }
+  // Récupérer le portefeuille d'un visiteur
+  public async getByVisiteur(visiteurId: string): Promise<IPortefeuille[]> {
+    return await PortefeuilleModel.find({ visiteur: visiteurId })
+      .populate('praticien') // Remplit les infos du médecin (Nom, Prénom...)
+      .exec();
   }
 
-  /**
-   * Retirer un praticien du portefeuille
-   */
-  public async retirer(id: string): Promise<void> {
-    const result = await PortefeuilleModel.findByIdAndDelete(id);
-    if (!result) {
-      throw new Error("Lien introuvable");
-    }
+  // Supprimer un lien
+  public async retirer(lienId: string): Promise<void> {
+    await PortefeuilleModel.findByIdAndDelete(lienId);
   }
 }

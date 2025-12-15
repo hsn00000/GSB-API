@@ -28,14 +28,13 @@ export class VisiteurRoutes {
 
     // --- Routes Portefeuille (User Stories) ---
 
-    // POST /api/visiteurs/:id/portefeuille - Ajouter un praticien
+    // Ajouter un praticien au portefeuille
     this.router.post('/:id/portefeuille', this.visiteurController.ajouterPraticienAuPortefeuille);
-    
-    // GET /api/visiteurs/:id/portefeuille - Voir le portefeuille
+
+    // Voir le portefeuille
     this.router.get('/:id/portefeuille', this.visiteurController.getPortefeuilleVisiteur);
 
-    // DELETE /api/visiteurs/:id/portefeuille/:lienId - Retirer un praticien du portefeuille
-    // (Note: :lienId correspond à l'ID de la liaison dans la collection 'portefeuilles')
+    // Supprimer un praticien (via l'ID du lien portefeuille)
     this.router.delete('/:id/portefeuille/:lienId', this.visiteurController.retirerPraticienDuPortefeuille);
   }
 }
