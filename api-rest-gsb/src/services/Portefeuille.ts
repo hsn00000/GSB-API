@@ -35,7 +35,14 @@ export class PortefeuilleService {
    * Mais attention à l'index unique si tu veux le réajouter plus tard.
    * Pour l'instant, on garde la suppression physique comme avant.
    */
-  public async retirer(lienId: string): Promise<void> {
-    await PortefeuilleModel.findByIdAndDelete(lienId);
+  public async retirer(visiteurId: string, praticienId: string): Promise<void> {
+  const result = await PortefeuilleModel.findOneAndDelete({
+    visiteur: visiteurId,
+    praticien: praticienId
+  });
+
+  if (!result) {
+    throw new Error("Ce praticien n'est pas dans le portefeuille de ce visiteur.");
   }
+}
 }

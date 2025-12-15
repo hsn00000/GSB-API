@@ -126,11 +126,16 @@ export class VisiteurController {
    * DELETE /api/visiteurs/:id/portefeuille/:lienId
    */
   public retirerPraticienDuPortefeuille = async (req: Request, res: Response): Promise<void> => {
-    try {
-      await this.portefeuilleService.retirer(req.params.lienId);
-      res.status(200).json({ success: true, message: "Praticien retiré du portefeuille" });
-    } catch (error: any) {
-      res.status(404).json({ success: false, message: error.message });
-    }
-  };
+  try {
+    // Attention : on récupère maintenant l'ID du praticien dans l'URL
+    const visiteurId = req.params.id;
+    const praticienId = req.params.praticienId; 
+
+    await this.portefeuilleService.retirer(visiteurId, praticienId);
+    
+    res.status(200).json({ success: true, message: "Praticien retiré du portefeuille" });
+  } catch (error: any) {
+    res.status(404).json({ success: false, message: error.message });
+  }
+};
 }

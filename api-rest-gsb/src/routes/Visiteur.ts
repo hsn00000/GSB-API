@@ -35,6 +35,6 @@ export class VisiteurRoutes {
     this.router.get('/:id/portefeuille', this.visiteurController.getPortefeuilleVisiteur);
 
     // Supprimer un praticien (via l'ID du lien portefeuille)
-    this.router.delete('/:id/portefeuille/:lienId', this.visiteurController.retirerPraticienDuPortefeuille);
+    this.router.delete('/:id/portefeuille/:praticienId', this.visiteurController.retirerPraticienDuPortefeuille);
   }
 }
