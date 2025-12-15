@@ -87,6 +87,7 @@ class App {
     // Routes visites
     const visiteRoutes = new VisiteRoutes();
     this.app.use('/api/visites', visiteRoutes.router);
+
   }
 
 
