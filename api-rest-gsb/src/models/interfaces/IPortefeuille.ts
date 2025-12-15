@@ -7,7 +7,8 @@ export interface IPortefeuille {
   _id?: string;
   visiteur: Types.ObjectId;
   praticien: Types.ObjectId;
-  dateAjout: Date;
+  dateDebutSuivi: Date;
+  dateFinSuivi?: Date | null;
 }
 
 /**
