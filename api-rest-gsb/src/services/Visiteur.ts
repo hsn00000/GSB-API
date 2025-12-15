@@ -51,20 +51,26 @@ export class VisiteurService {
    * Récupérer un utilisateur par son ID
    */
   public async getVisiteurById(id: string): Promise<IVisiteurDocument | null> {
-    try {
-      const visiteur = await VisiteurModel.findById(id).exec();
+  try {
+    const visiteur = await VisiteurModel.findById(id)
+      // 👇 C'est cette ligne qui récupère les données du portefeuille
+      .populate({
+        path: 'portefeuille',
+        populate: { path: 'praticien' } // Pour voir les noms des médecins
+      })
+      .exec();
 
-      if (!visiteur) {
-        throw new Error(`Visiteur avec l'ID ${id} introuvable`);
-      }
-      return visiteur;
-    } catch (error: any) {
-      if (error.name === 'CastError') {
-        throw new Error(`ID invalide: ${id}`);
-      }
-      throw error;
+    if (!visiteur) {
+      throw new Error(`Visiteur avec l'ID ${id} introuvable`);
     }
+    return visiteur;
+  } catch (error: any) {
+    if (error.name === 'CastError') {
+      throw new Error(`ID invalide: ${id}`);
+    }
+    throw error;
   }
+}
 
   /**
      * --- AJOUT USER STORY 1 ---
