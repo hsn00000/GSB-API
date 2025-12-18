@@ -32,12 +32,19 @@ export class VisiteService {
   }
 
   /**
-   * Récupérer toutes les visites (avec les détails peuplés)
+   * Récupérer toutes les visites (avec les détails peuplés, y compris le portefeuille du visiteur)
    */
   public async getAllVisites(): Promise<IVisiteDocument[]> {
     try {
       const visites = await VisiteModel.find()
-        .populate('visiteurs')   // Remplace l'ID par l'objet Visiteur complet
+        // 👇 MODIFICATION ICI : Deep Populate pour avoir le portefeuille rempli
+        .populate({
+          path: 'visiteurs',
+          populate: { 
+            path: 'portefeuille',           // Remplir le champ virtuel 'portefeuille'
+            populate: { path: 'praticien' } // Remplir les infos du médecin dans le portefeuille
+          }
+        })
         .populate('praticiens')  // Remplace l'ID par l'objet Praticien complet
         .populate('motifs')      // Remplace l'ID par l'objet Motif complet
         .sort({ dateVisite: -1 }) // Tri du plus récent au plus ancien
@@ -55,7 +62,14 @@ export class VisiteService {
   public async getVisiteById(id: string): Promise<IVisiteDocument | null> {
     try {
       const visite = await VisiteModel.findById(id)
-        .populate('visiteurs')
+        // 👇 MODIFICATION ICI ÉGALEMENT
+        .populate({
+          path: 'visiteurs',
+          populate: { 
+            path: 'portefeuille',
+            populate: { path: 'praticien' }
+          }
+        })
         .populate('praticiens')
         .populate('motifs')
         .exec();
