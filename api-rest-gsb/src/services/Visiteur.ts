@@ -33,7 +33,7 @@ export class VisiteurService {
   public async getAllVisiteurs(): Promise<IVisiteurDocument[]> {
     try {
       const visiteurs = await VisiteurModel.find()
-        .select('-visites -dateEmbauche') // On retire les visites et la date d'embauche
+        .select('nom prenom email telephone -_id')
         .sort({ dateCreation: -1 })
         .exec();
       return visiteurs;
@@ -49,7 +49,7 @@ export class VisiteurService {
     try {
       const visiteur = await VisiteurModel.findById(id)
         // 👇 MODIFICATION ICI : On applique le même filtre que pour la liste
-        .select('-visites -dateEmbauche')
+        .select('nom prenom email telephone -_id')
         
         // On ne met PAS de .populate('portefeuille'), donc il ne s'affichera pas.
         .exec();
