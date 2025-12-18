@@ -5,6 +5,7 @@ import { ICreateVisiteur } from '../models/interfaces/IVisiteur';
  * Service pour gérer la logique métier des visiteurs
  */
 export class VisiteurService {
+  
   /**
    * Créer un nouvel visiteur
    */
@@ -27,11 +28,12 @@ export class VisiteurService {
   }
 
   /**
-   * Récupérer tous les visiteurs
+   * Récupérer tous les visiteurs (Version allégée)
    */
   public async getAllVisiteurs(): Promise<IVisiteurDocument[]> {
     try {
       const visiteurs = await VisiteurModel.find()
+        .select('-visites -dateEmbauche') // On retire les visites et la date d'embauche
         .sort({ dateCreation: -1 })
         .exec();
       return visiteurs;
@@ -41,16 +43,15 @@ export class VisiteurService {
   }
 
   /**
-   * Récupérer un visiteur par son ID (AVEC LE PORTEFEUILLE)
+   * Récupérer un visiteur par son ID (Version allégée aussi !)
    */
   public async getVisiteurById(id: string): Promise<IVisiteurDocument | null> {
     try {
       const visiteur = await VisiteurModel.findById(id)
-        // 👇 AJOUT CRUCIAL : On remplit le champ virtuel
-        .populate({
-          path: 'portefeuille',
-          populate: { path: 'praticien' } // On remplit aussi les infos du médecin
-        })
+        // 👇 MODIFICATION ICI : On applique le même filtre que pour la liste
+        .select('-visites -dateEmbauche')
+        
+        // On ne met PAS de .populate('portefeuille'), donc il ne s'affichera pas.
         .exec();
 
       if (!visiteur) {

@@ -49,7 +49,10 @@ const visiteurSchema = new Schema<IVisiteurDocument>(
   {
     versionKey: false,
     // 👇 INDISPENSABLE : Active l'affichage des champs virtuels (comme portefeuille)
-    toJSON: { virtuals: true },
+    toJSON: { virtuals: true, transform: function (doc, ret) {
+        delete ret.portefeuille; // On supprime radicalement le champ, même s'il est vide
+        return ret;
+      } },
     toObject: { virtuals: true }
   }
 );
