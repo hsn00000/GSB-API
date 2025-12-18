@@ -47,4 +47,26 @@ export class PortefeuilleService {
       throw new Error("Ce praticien n'est pas dans le portefeuille de ce visiteur.");
     }
   }
+
+/**
+   * Clôturer le suivi d'un praticien (Soft Delete / Archivage)
+   */
+  public async terminerSuivi(visiteurId: string, praticienId: string): Promise<IPortefeuille> {
+    const result = await PortefeuilleModel.findOneAndUpdate(
+      { 
+        visiteur: visiteurId, 
+        praticien: praticienId,
+        dateFinSuivi: null // On ne modifie que si le suivi est encore actif
+      },
+      { dateFinSuivi: new Date() }, // Mise à jour avec la date/heure actuelle
+      { new: true } // Retourne l'objet modifié
+    ).populate('praticien'); // Optionnel : pour renvoyer les infos du praticien archivé
+
+    if (!result) {
+      throw new Error("Impossible de terminer le suivi : lien inexistant ou déjà clôturé.");
+    }
+
+    return result;
+  }
+
 }

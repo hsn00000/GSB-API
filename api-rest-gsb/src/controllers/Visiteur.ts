@@ -138,4 +138,29 @@ export class VisiteurController {
     res.status(404).json({ success: false, message: error.message });
   }
 };
+
+/**
+   * --- USER STORY 4 : Ne plus suivre un praticien (Archivage) ---
+   * PATCH /api/visiteurs/:id/portefeuille/:praticienId
+   */
+  public cloturerSuiviPraticien = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const visiteurId = req.params.id;
+      const praticienId = req.params.praticienId;
+
+      const resultat = await this.portefeuilleService.terminerSuivi(visiteurId, praticienId);
+
+      res.status(200).json({
+        success: true,
+        message: 'Suivi du praticien terminé avec succès',
+        data: resultat
+      });
+    } catch (error: any) {
+      res.status(404).json({ // 404 car on n'a pas trouvé le lien actif
+        success: false,
+        message: error.message || "Erreur lors de la clôture du suivi"
+      });
+    }
+  };
+
 }

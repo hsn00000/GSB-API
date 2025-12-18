@@ -34,7 +34,10 @@ export class VisiteurRoutes {
     // Voir le portefeuille
     this.router.get('/:id/portefeuille', this.visiteurController.getPortefeuilleVisiteur);
 
-    // Supprimer un praticien (via l'ID du lien portefeuille)
+    // Supprimer un praticien (Hard Delete - US 3)
     this.router.delete('/:id/portefeuille/:praticienId', this.visiteurController.retirerPraticienDuPortefeuille);
+
+    // Clôturer le suivi d'un praticien (Soft Delete - US 4)
+    this.router.patch('/:id/portefeuille/:praticienId', this.visiteurController.cloturerSuiviPraticien);
   }
 }
