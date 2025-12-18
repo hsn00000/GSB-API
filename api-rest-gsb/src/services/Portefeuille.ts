@@ -9,7 +9,13 @@ export class PortefeuilleService {
         visiteur: visiteurId, 
         praticien: praticienId 
       });
+      
       await lien.save();
+
+      // AJOUT : On charge les infos du praticien (et du visiteur si besoin)
+      await lien.populate('praticien');
+      // await lien.populate('visiteur'); // Décommentez si vous voulez aussi les infos du visiteur
+      
       return lien;
     } catch (error: any) {
       if (error.code === 11000) {
