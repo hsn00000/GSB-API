@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { VisiteurController } from '../controllers/Visiteur';
+import { validateCreateVisiteur } from '../middlewares/validators/visiteurValidator';
 
 /**
  * Configuration des routes pour les visiteurs
@@ -18,7 +19,7 @@ export class VisiteurRoutes {
     // --- Routes Visiteurs Classiques ---
     
     // POST /api/visiteurs - Créer un visiteur
-    this.router.post('/', this.visiteurController.createVisiteur);
+    this.router.post('/', validateCreateVisiteur,this.visiteurController.createVisiteur);
     
     // GET /api/visiteurs - Récupérer tous les visiteurs
     this.router.get('/', this.visiteurController.getAllVisiteurs);
