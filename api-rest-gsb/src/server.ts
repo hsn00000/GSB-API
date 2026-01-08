@@ -1,6 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+// 👇 AJOUT : Import du rate limiter
+import rateLimit from 'express-rate-limit'; 
+
 import { Database } from './config/database';
 import { VisiteurRoutes } from './routes/Visiteur';
 import { MotifRoutes } from './routes/Motif';
@@ -44,6 +47,22 @@ class App {
    
     // Active CORS pour toutes les origines
     this.app.use(cors());
+
+    // 👇 AJOUT : Configuration du Rate Limiter (Protection DoS)
+    // Limite le nombre de requêtes pour protéger contre la surcharge serveur
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // Fenêtre de 15 minutes
+      limit: 100, // Limite chaque IP à 100 requêtes par fenêtre de 15 minutes
+      standardHeaders: true, // Retourne les infos de limite dans les headers `RateLimit-*`
+      legacyHeaders: false, // Désactive les headers `X-RateLimit-*`
+      message: {
+        success: false,
+        message: "Trop de requêtes effectuées depuis cette IP, veuillez réessayer après 15 minutes."
+      }
+    });
+
+    // Appliquer le limiteur uniquement aux routes de l'API (commençant par /api)
+    this.app.use('/api', limiter);
   }
 
 
@@ -123,4 +142,3 @@ process.on('SIGINT', async () => {
   await Database.getInstance().disconnect();
   process.exit(0);
 });
-
