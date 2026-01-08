@@ -1,8 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// 👇 MODIFICATION : On importe maintenant notre middleware dédié
 import { apiLimiter } from './middlewares/rateLimiter';
+// 👇 AJOUT : Import de la sécurité Helmet
+import { securityHeaders } from './middlewares/helmet'; 
 
 import { Database } from './config/database';
 import { VisiteurRoutes } from './routes/Visiteur';
@@ -35,6 +36,10 @@ class App {
    * Configure les middlewares Express
    */
   private initializeMiddlewares(): void {
+    // 👇 AJOUT : Application des en-têtes de sécurité (Helmet)
+    // Doit être placé en premier pour sécuriser toutes les réponses HTTP
+    this.app.use(securityHeaders);
+
     // Parse le JSON dans les requêtes
     this.app.use(express.json());
    
@@ -44,11 +49,12 @@ class App {
     // Active CORS pour toutes les origines
     this.app.use(cors());
 
-    // 👇 MODIFICATION : Appel propre du middleware importé
     // Appliquer le limiteur uniquement aux routes de l'API
     this.app.use('/api', apiLimiter);
   }
 
+  // ... (Le reste du fichier initializeRoutes, initializeDatabase, listen reste inchangé)
+  
   /**
    * Configure les routes de l'application
    */
@@ -90,16 +96,10 @@ class App {
     this.app.use('/api/visites', visiteRoutes.router);
   }
 
-  /**
-   * Initialise la connexion à la base de données
-   */
   private async initializeDatabase(): Promise<void> {
     await this.database.connect();
   }
 
-  /**
-   * Démarre le serveur Express
-   */
   public listen(): void {
     this.app.listen(this.port, () => {
       console.log('================================');
